@@ -1,0 +1,17 @@
+{
+  "name": "algo2",
+  "main": "index.js",
+  "authors": [
+    "gustavo <gustavopetruzzi19@gmail.com>"
+  ],
+  "description": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
