@@ -19,7 +19,9 @@ $app->group('/usuarios', function () {
 });
 $app->group('/bicicletas', function (){
     $this->post('/nueva', \bicicletaApi::class . ":nuevaBicicleta");
-    $this->get('/traer', \bicicletaApi::class . ":listadoBicicletas");
-    $this->get('/traer/color/{filtro}/{valor}', \bicicleta::class . ":listadoBicicletas");
+	$this->get('/traer', \bicicletaApi::class . ":listadoBicicletas");
+	$this->get('/traer/{id}', \bicicletaApi::class . ":traerBicicleta");
+	$this->get('/filtrado/{filtro}/{valor}', \bicicletaApi::class . ":listadoBicicletas");
+	$this->delete('/borrar', \bicicletaApi::class . ":borrar");
 });
 $app->run();

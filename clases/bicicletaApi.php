@@ -23,18 +23,34 @@
         public static function listadoBicicletas($request, $response, $args){
             $filtro = NULL;
             $value = NULL;
+
             if(array_key_exists("filtro",$args)){
                 $filtro = filter_var($args['filtro'], FILTER_SANITIZE_STRING);
             }
             if(array_key_exists("valor", $args)){
-                $value = filter_var($args['valor'], FILTER_SANITIZE_STRING);
+                $value = filter_var($args["valor"], FILTER_SANITIZE_STRING);
             }
-            
+
             $bicicletas = bicicleta::traerBicicletas($filtro, $value);
             return $response->withJson($bicicletas);
-        }
+		}
 
-
+		public static function traerBicicleta($request, $response, $args){
+		    $id = filter_var($args['id'], FILTER_SANITIZE_NUMBER_INT);
+			$bicicleta = bicicleta::buscar($id);
+			return $response->withJson($bicicleta);
+		}
+		public static function borrar(Request $request, Response $response){
+			$data = $request->getParsedBody();
+			
+			$id = filter_var($data['id'], FILTER_SANITIZE_NUMBER_INT);
+		    
+			var_dump($id);
+			$bicicleta = bicicleta::buscar($id);
+			var_dump($bicicleta);
+			//return $response->withJson($bicicleta->borrarDB());
+			
+		}
     }
     
 ?>

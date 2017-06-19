@@ -44,11 +44,11 @@
                 $columna = bicicleta::getFilter($filtro);
                 if(isset($columna)){
                     $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE $columna = :value");
-                    if(is_numeric($filtro[$columna])){
-                        $consulta->bindValue(':value', $filtro[$columna], PDO::PARAM_INT);
+                    if(is_numeric($valor)){
+                        $consulta->bindValue(':value', $valor, PDO::PARAM_INT);
                     }
                     else{
-                        $consulta->bindValue(':value', $filtro[$columna], PDO::PARAM_STR);
+                        $consulta->bindValue(':value', $valor, PDO::PARAM_STR);
                     }
                 }
             }            
@@ -60,18 +60,19 @@
 
         public static function buscar($id){
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE $id = :id");
-            $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE id = :id");
+			$consulta->bindValue(':id', $id, PDO::PARAM_INT);
+			var_dump($id);
             $consulta->setFetchMode(PDO::FETCH_CLASS, 'bicicleta');
             $consulta->execute();
             return $consulta->fetch();
         }
 
-        public function borrar(){
+        public function borrarDB(){
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
             $consulta = $objetoAccesoDatos->RetornarConsulta("DELETE FROM bicicletas WHERE id = :id");
             $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
-
+			return $consulta->execute();
         }
 
 
