@@ -20,6 +20,6 @@ $app->group('/usuarios', function () {
 $app->group('/bicicletas', function (){
     $this->post('/nueva', \bicicletaApi::class . ":nuevaBicicleta");
     $this->get('/traer', \bicicletaApi::class . ":listadoBicicletas");
-    //$this->get('/bicicletas/color', \bicicleta::cla);
+    $this->get('/traer/color/{filtro}/{valor}', \bicicleta::class . ":listadoBicicletas");
 });
 $app->run();

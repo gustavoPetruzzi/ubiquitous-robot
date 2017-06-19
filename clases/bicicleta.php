@@ -29,16 +29,19 @@
          * 
          * 
          *
-         * @param array $filtro segun la key es el tipo de filtro que se aplica. Si es NULL trae todos
+         * @param string $filtro segun la key es el tipo de filtro que se aplica. Si es NULL trae todos
+         * @param string $valor
          * @return listaBicicletas array con todas las bicicletas
          */
-        public static function traerBicicletas($filtro = NULL){
+        public static function traerBicicletas($filtro = NULL, $valor = NULL){
             $listaBicicletas = array();
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
-            if(!isset($filtro)){
+            
+            
+            if(!isset($filtro) && !isset($valor)){
                 $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas");    
             }else{
-                $columna = bicicleta::getFilter(key($filtro));
+                $columna = bicicleta::getFilter($filtro);
                 if(isset($columna)){
                     $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE $columna = :value");
                     if(is_numeric($filtro[$columna])){
@@ -52,6 +55,7 @@
             $consulta->execute();
             $listaBicicletas = $consulta->fetchAll(PDO::FETCH_CLASS, "bicicleta");
             return $listaBicicletas;
+            
         }
 
         public static function buscar($id){

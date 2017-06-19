@@ -20,9 +20,17 @@
             return $response->withJson($bicicleta->guardar());
         }
 
-        public static function listadoBicicletas(Request $request, Response $response){
-            $data = $request->getParsedBody();
-            $bicicletas = bicicleta::traerBicicletas($data);
+        public static function listadoBicicletas($request, $response, $args){
+            $filtro = NULL;
+            $value = NULL;
+            if(array_key_exists("filtro",$args)){
+                $filtro = filter_var($args['filtro'], FILTER_SANITIZE_STRING);
+            }
+            if(array_key_exists("valor", $args)){
+                $value = filter_var($args['valor'], FILTER_SANITIZE_STRING);
+            }
+            
+            $bicicletas = bicicleta::traerBicicletas($filtro, $value);
             return $response->withJson($bicicletas);
         }
 

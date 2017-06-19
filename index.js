@@ -1,3 +1,11 @@
+$(document).ready(function() {
+    $("#bicicletasColor").click(function() {
+        
+        filtro = 'color';
+        value = 'azul';
+        bicicletas(filtro,value);
+    });
+});
 function verificarUsuario(){
     var mailUsuario = "admin@admim.com.ar";
     var nombreUsuario = "juan";
@@ -10,9 +18,14 @@ function verificarUsuario(){
     }).then(bien, error)
 };
 
-function bicicletas(filtro){
-    if(filtro!== undefined){
-        
+function bicicletas(filtroKey, value){
+    if(filtroKey!== undefined){
+        var urlPeticion = 'bicicletas/traer/' + filtroKey;
+        $.ajax({
+            url:urlPeticion,
+            type: "GET",
+            data: {filtro: filtroKey, valor: value}
+        }).then(bien, error);
     }
     else{
         $.ajax({
@@ -22,6 +35,7 @@ function bicicletas(filtro){
     }
 
 }
+
 
 function bien(data){
     console.info(data);
