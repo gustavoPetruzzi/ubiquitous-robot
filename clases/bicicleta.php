@@ -6,9 +6,9 @@
         public $color;
         public $marca;
         public $rodado; 
-        function __construct( $id=NULL, $color=NULL, $marca= NULL, $rodado = NULL)
+        function __construct($color=NULL, $marca= NULL, $rodado = NULL)
         {
-            if($id != NULL && $color != NULL && $marca != NULL && $rodado != NULL){
+            if($color != NULL && $marca != NULL && $rodado != NULL){
                 $this->color = $color;
                 $this->marca = $marca;
                 $this->rodado = $rodado;
@@ -44,11 +44,11 @@
                 $columna = bicicleta::getFilter($filtro);
                 if(isset($columna)){
                     $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE $columna = :value");
-                    if(is_numeric($filtro[$columna])){
-                        $consulta->bindValue(':value', $filtro[$columna], PDO::PARAM_INT);
+                    if(is_numeric($valor)){
+                        $consulta->bindValue(':value', $valor, PDO::PARAM_INT);
                     }
                     else{
-                        $consulta->bindValue(':value', $filtro[$columna], PDO::PARAM_STR);
+                        $consulta->bindValue(':value', $valor, PDO::PARAM_STR);
                     }
                 }
             }            
@@ -60,7 +60,7 @@
 
         public static function buscar($id){
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE $id = :id");
+            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM bicicletas WHERE id = :id");
             $consulta->bindValue(':id', $id, PDO::PARAM_INT);
             $consulta->setFetchMode(PDO::FETCH_CLASS, 'bicicleta');
             $consulta->execute();
@@ -71,6 +71,7 @@
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
             $consulta = $objetoAccesoDatos->RetornarConsulta("DELETE FROM bicicletas WHERE id = :id");
             $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
+            return $consulta->execute();
 
         }
 

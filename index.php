@@ -5,6 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require 'clases/vendor/autoload.php';
 require_once 'clases/usuarioApi.php';
 require_once 'clases/bicicletaApi.php';
+require_once 'clases/verificadora.php';
+require_once 'clases/operacionesApi.php';
 $app = new \Slim\App;
 
 $app->get('/', function (Request $request, Response $response) {
@@ -14,12 +16,18 @@ $app->get('/', function (Request $request, Response $response) {
 
 
 $app->group('/usuarios', function () {
-    $this->post('/verificar',\usuarioApi::class . ":verificarUsuario");
+    $this->post('/verificar',\usuarioApi::class . ":verificar");
     
-});
+})->add(\verificadora::class . ":datosUsuario");
 $app->group('/bicicletas', function (){
     $this->post('/nueva', \bicicletaApi::class . ":nuevaBicicleta");
     $this->get('/traer', \bicicletaApi::class . ":listadoBicicletas");
-    $this->get('/traer/color/{filtro}/{valor}', \bicicleta::class . ":listadoBicicletas");
-});
+    $this->get('/traer/{filtro}/{valor}', \bicicletaApi::class . ":listadoBicicletas");
+    $this->delete('/borrar', \bicicletaApi::class . ":borrarBicicleta");
+})->add(\verificadora::class . ":datosBicicletas");
+
+$app->group('/operaciones', function(){
+    $this->post('/alta', \operacionesApi::class . ":CargarUno");
+    $this->map(['PUT', 'POST'],'/modificar',\operacionesApi::class . ":ModificarUno");
+})->add(\verificadora::class . ":datosAlta");
 $app->run();

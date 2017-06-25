@@ -13,5 +13,22 @@
     <button type="button" onclick="altaBicicleta()"> Alta bicicleta </button>
     <button type="button" onclick="bicicletas()"> Listado Bicicletas </button>
     <button type="button" id="bicicletasColor"> Listado Bicicletas Color </button>
+    <button type="button" onclick="borrarBicicleta()"> Borrar bicicleta </button>
+    <br>
+    <form action="" id="venta" enctype="multipart/form-data">
+        id: <input type="text" id="idBici"> 
+        <br>
+        <br>
+        nombre: <input type="text" id="nombreBici"> 
+        <br>
+        fecha: <input type="text" id="fechaBici"> 
+        <br>
+        precio: <input type="text" id="precioBici"> 
+        <br>
+        <input type="file" id="imagenBici">
+        <br>
+        <button id="altaVenta"> Venta </button>
+        <button id="modificarVenta"> Modificar </button>
+    </form>
 </body>
 </html>

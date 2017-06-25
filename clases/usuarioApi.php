@@ -6,13 +6,12 @@
     require_once 'vendor/autoload.php';
     class usuarioApi extends usuario
     {
-        public static function verificarUsuario(Request $request, Response $response){
-            $data = $request->getParsedBody();
-            $nombre = filter_var($data['nombre'], FILTER_SANITIZE_STRING);
-            $clave = filter_var($data['clave'], FILTER_SANITIZE_STRING);
-            $mail = filter_var($data['mail'], FILTER_SANITIZE_STRING);
+        public static function verificar(Request $request, Response $response){
+            $mail = $request->getAttribute('mail');
+            $nombre = $request->getAttribute('nombre');
+            $clave = $request->getAttribute('clave');
             $usuario = new usuario($mail, $nombre, $clave);
-            $retorno = $usuario->verificar();
+            $retorno = $usuario->verificarDB();
             return $response->withJson($usuario->verificar());
             
         }

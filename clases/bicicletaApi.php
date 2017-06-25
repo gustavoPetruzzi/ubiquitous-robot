@@ -11,12 +11,10 @@
     {
         
         public static function nuevaBicicleta(Request $request, Response $response){
-            $data = $request->getParsedBody();
-            $color = filter_var($data['color'], FILTER_SANITIZE_STRING);
-            $marca = filter_var($data['marca'], FILTER_SANITIZE_STRING);
-            $rodado = filter_var($data['rodado'], FILTER_SANITIZE_INT);
+            $color = $request->getAttribute('color');
+            $marca = $request->getAttribute('marca');
+            $rodado = $request->getAttribute('rodado');
             $bicicleta = new bicicleta($color, $marca, $rodado);
-            
             return $response->withJson($bicicleta->guardar());
         }
 
@@ -32,6 +30,21 @@
             
             $bicicletas = bicicleta::traerBicicletas($filtro, $value);
             return $response->withJson($bicicletas);
+        }
+        public static function unaBicicleta($request, $response, $args){
+            if(array_key_exists("id", $args)){
+                $id = filter_var($args['id'], FILTER_SANITIZE_NUMBER_INT);
+                $bicicleta = bicicleta::buscar($id);
+                return $response->withJson($bicicleta);
+            }
+            return $response->withJson("bicicleta no encontrada", 400);
+        }
+
+        public static function borrarBicicleta($request, $response, $args){
+            $id = $request->getAttribute('id');
+            $bicicleta = bicicleta::buscar($id);
+            
+            return $response->withJson($bicicleta->borrar());
         }
 
 

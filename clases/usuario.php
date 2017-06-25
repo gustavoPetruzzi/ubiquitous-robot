@@ -43,7 +43,7 @@
             $empleado = $consulta->fetch();
         }
 
-        public function verificar(){
+        public function verificarDB(){
             $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
             $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT 1 FROM usuarios WHERE mail = :mail AND nombre = :nombre AND clave = :clave");
             $consulta->bindValue(":mail",$this->mail, PDO::PARAM_STR);
