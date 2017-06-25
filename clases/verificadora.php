@@ -43,13 +43,32 @@
         }
 
         public function datosAlta($request, $response, $next){
-            $data = $request->getParsedBody();
+            if($request->isPost()){
+                $data = $request->getParsedBody();    
+                $id = filter_var($data['id'], FILTER_SANITIZE_NUMBER_INT);
+                $nombreCliente = filter_var($data['nombre'], FILTER_SANITIZE_STRING);
+                //VERIFICAR FECHA
+                $fecha = filter_var($data['fecha'], FILTER_SANITIZE_STRING);
+                $precio = filter_var($data['precio'], FILTER_SANITIZE_STRING);
+            }
+            else{
+                $ruta = $request->getAttribute('route');
+                $id = filter_var($ruta->getArgument('id'), FILTER_SANITIZE_NUMBER_INT);
+                $nombreCliente = filter_var($ruta->getArgument('nombre'), FILTER_SANITIZE_STRING);
+                //VERIFICAR FECHA
+                $fecha = filter_var($ruta->getArgument('fecha'), FILTER_SANITIZE_STRING);
+                $precio = filter_var($ruta->getArgument('precio'), FILTER_SANITIZE_STRING);
 
-            $id = filter_var($data['id'], FILTER_SANITIZE_NUMBER_INT);
-            $nombreCliente = filter_var($data['nombre'], FILTER_SANITIZE_STRING);
-            //VERIFICAR FECHA
-            $fecha = filter_var($data['fecha'], FILTER_SANITIZE_STRING);
-            $precio = filter_var($data['precio'], FILTER_SANITIZE_STRING);
+            }
+            if($id && $fecha && $precio && $nombreCliente){
+                $request = $request->withAttribute('id', $id);
+                $request = $request->withAttribute('nombre', $nombreCliente);
+                $request = $request->withAttribute('fecha', $fecha);
+                $request = $request->withAttribute('precio', $precio);
+
+                return $next($request, $response);
+            }
+            return $response->withJson("Datos no pasados", 400);
 
             
         }

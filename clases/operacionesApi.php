@@ -20,10 +20,11 @@
             $nombre = $request->getAttribute('nombre');
             $fecha = $request->getAttribute('fecha');
             $precio = $request->getAttribute('precio');
-            $imagen = $request->getAttribute('imagen');
+            $imagen = $request->getAttribute('imagen');            
             $bicicleta = bicicleta::buscar($id);
             if($bicicleta){
                 $operacion = new operaciones($id, $nombre, $fecha, $precio, $imagen );
+                
                 return $response->withJson($operacion->guardar());    
             }
             
@@ -33,7 +34,28 @@
             
         }
         public function ModificarUno($request, $response, $args){
-
+            
+            $id = $request->getAttribute('id');
+            $nombre = $request->getAttribute('nombre');
+            $fecha = $request->getAttribute('fecha');
+            $precio = $request->getAttribute('precio');
+            $imagen = $request->getAttribute('imagen');
+            $operacion = operaciones::buscar($id);
+            
+            
+            if($operacion){
+                $operacion->nombreCliente = $nombre;
+                $operacion->fecha = $fecha;
+                $operacion->precio = $precio;
+                if($request->isPost()){
+                    $imagen = $request->getAttribute('imagen');
+                    $operacion->imagen = $imagen;
+                }
+                return $response->withJson($operacion->modificar());
+                
+            }
+            
+            return $response->withJson("no existe esa operacion", 400);
         }
     }
     

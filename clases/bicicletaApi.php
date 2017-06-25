@@ -42,9 +42,13 @@
 
         public static function borrarBicicleta($request, $response, $args){
             $id = $request->getAttribute('id');
+            
             $bicicleta = bicicleta::buscar($id);
             
-            return $response->withJson($bicicleta->borrar());
+            if($bicicleta){
+                return $response->withJson($bicicleta->borrar());    
+            }
+            return $response->withJson("Bicicleta no encontrada", 400);
         }
 
 

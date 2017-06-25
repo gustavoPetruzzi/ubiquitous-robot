@@ -17,7 +17,7 @@ $(document).ready(function() {
         datos.append('fecha', $("#fechaBici").val());
         datos.append('precio', $("#precioBici").val());
         datos.append('imagen', foto.files[0]);
-        alert("ALGO");
+        
 
         $.ajax({
             url:'operaciones/alta',
@@ -29,22 +29,18 @@ $(document).ready(function() {
         }).then(bien, error);
     })
     $("#modificarVenta").click(function(){
-        var datos = new FormData();
-        var foto = $("#imagenBici")[0];
-        datos.append('id', $("#idBici").val());
-        datos.append('nombre', $("#nombreBici").val());
-        datos.append('fecha', $("#fechaBici").val());
-        datos.append('precio', $("#precioBici").val());
-        datos.append('imagen', foto.files[0]);
-        alert("ALGO");
+        
+        
+        var id = $("#idBici").val();
+        var nombre = $("#nombreBici").val();
+        var fecha  = $("#fechaBici").val();
+        var precio = $("#precioBici").val();
+        
+        var urlPut = 'operaciones/modificar/' + id + '/' + nombre + '/' + fecha + '/' + precio
 
         $.ajax({
-            url:'operaciones/modificar',
+            url: urlPut,
             type: "PUT",
-            processData: false,
-            contentType: false,
-            async: true,
-            data: datos,
         }).then(bien, error);
     })
 });
@@ -90,7 +86,7 @@ function altaBicicleta(){
 
 
 function borrarBicicleta(){
-    var idBici = 7;
+    var idBici = 8;
     $.ajax({
         url:'bicicletas/borrar',
         type: "DELETE",

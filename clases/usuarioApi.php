@@ -11,8 +11,8 @@
             $nombre = $request->getAttribute('nombre');
             $clave = $request->getAttribute('clave');
             $usuario = new usuario($mail, $nombre, $clave);
-            $retorno = $usuario->verificarDB();
-            return $response->withJson($usuario->verificar());
+            
+            return $response->withJson($usuario->verificarDB());
             
         }
     }

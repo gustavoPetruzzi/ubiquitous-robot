@@ -31,6 +31,29 @@
 
             return $consulta->execute();
         }
+
+        public static function buscar($id){
+            $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
+            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT idbicicleta as idBicicleta, nombrecliente as nombreCliente, fecha, precio, imagen FROM operaciones WHERE idbicicleta = :id");
+            $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+            $consulta->setFetchMode(PDO::FETCH_CLASS, 'operaciones');
+            $consulta->execute();
+            return $consulta->fetch();
+            
+        }
+
+        public function modificar(){
+            $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
+            $consulta = $objetoAccesoDatos->RetornarConsulta("UPDATE  operaciones SET nombreCliente = :nombre, fecha = :fecha, precio =:precio, imagen= :imagen 
+                                                              WHERE idbicicleta = :id");
+            $consulta->bindValue(':id', $this->idBicicleta, PDO::PARAM_INT);
+            $consulta->bindValue(':nombre', $this->nombreCliente, PDO::PARAM_STR);
+            $consulta->bindValue(':fecha', $this->fecha, PDO::PARAM_STR);
+            $consulta->bindValue(':precio', $this->precio, PDO::PARAM_STR);
+            $consulta->bindValue(':imagen', $this->imagen, PDO::PARAM_STR);
+
+            return $consulta->execute();
+        }
     }
     
 ?>
